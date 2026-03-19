@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Research — Kompetitor Photo Box Sragen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f12;
+  --surface: #14171c;
+  --surface2: #1c2028;
+  --surface3: #232830;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.14);
+  --text: #e8e6e0;
+  --muted: #7a7870;
+  --subtle: #3a3d45;
+  --accent: #4af0c8;
+  --accent-dim: rgba(74,240,200,0.1);
+  --accent-glow: rgba(74,240,200,0.22);
+  --blue: #4a9eff;
+  --blue-dim: rgba(74,158,255,0.12);
+  --red: #ff6b6b;
+  --red-dim: rgba(255,107,107,0.12);
+  --amber: #ffb547;
+  --amber-dim: rgba(255,181,71,0.12);
+  --green: #4ade80;
+  --green-dim: rgba(74,222,128,0.12);
+  --purple: #c084fc;
+  --purple-dim: rgba(192,132,252,0.12);
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --radius: 12px;
+  --radius-lg: 18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;line-height:1.6;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+.page{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:48px 24px 80px}
+
+/* Header */
+.header{margin-bottom:48px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.label-pill{display:inline-flex;align-items:center;gap:6px;background:var(--accent-dim);border:1px solid rgba(74,240,200,0.2);color:var(--accent);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:16px}
+.label-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:var(--font-display);font-size:clamp(26px,4vw,42px);font-weight:400;line-height:1.15;letter-spacing:-.01em}
+h1 em{color:var(--accent);font-style:italic}
+.subtitle{margin-top:10px;color:var(--muted);font-size:14px;font-weight:300}
+.timestamp{font-family:var(--font-mono);font-size:11px;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:8px 14px;border-radius:8px;white-space:nowrap;align-self:flex-end}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:28px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px;width:fit-content}
+.tab{font-size:12px;font-weight:500;padding:8px 18px;border-radius:8px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;font-family:var(--font-body)}
+.tab.active{background:var(--surface2);color:var(--text);border:1px solid var(--border-hover)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
+.card-header{display:flex;justify-content:space-between;align-items:center;padding:18px 22px 14px;border-bottom:1px solid var(--border)}
+.card-title{font-size:13px;font-weight:500}
+.card-body{padding:20px 22px}
+.section-tag{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+/* Metric cards */
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:700px){.metrics-row{grid-template-columns:1fr 1fr}}
+.met{background:var(--surface2);border-radius:var(--radius);padding:16px;transition:border-color .2s}
+.met .lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.met .val{font-family:var(--font-mono);font-size:22px;font-weight:500;line-height:1}
+.met .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.met.accent{border:1px solid rgba(74,240,200,0.2);background:linear-gradient(135deg,var(--surface2),rgba(74,240,200,0.04))}
+.met.accent .val{color:var(--accent)}
+
+/* Badges */
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;font-family:var(--font-mono)}
+.bg{background:var(--green-dim);color:var(--green)}
+.ba{background:var(--amber-dim);color:var(--amber)}
+.br{background:var(--red-dim);color:var(--red)}
+.bb{background:var(--blue-dim);color:var(--blue)}
+.bp{background:var(--purple-dim);color:var(--purple)}
+.bac{background:var(--accent-dim);color:var(--accent)}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.form-grid{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:12px;color:var(--muted);font-weight:400}
+.form-group input,.form-group select,.form-group textarea{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:9px 12px;font-size:13px;font-family:var(--font-body);outline:none;transition:border-color .15s;width:100%}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group select option{background:var(--surface2)}
+.form-group textarea{resize:vertical;min-height:70px;line-height:1.5}
+.form-section{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+.form-section::after{content:'';flex:1;height:1px;background:rgba(74,240,200,0.15)}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;font-weight:500;padding:10px 20px;border-radius:8px;border:1px solid rgba(74,240,200,0.4);background:rgba(74,240,200,0.1);color:var(--accent);cursor:pointer;transition:all .15s}
+.btn-primary:hover{background:rgba(74,240,200,0.18);border-color:rgba(74,240,200,0.6)}
+.btn-danger{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;padding:6px 12px;border-radius:6px;border:1px solid var(--red-dim);background:transparent;color:var(--red);cursor:pointer;transition:all .15s}
+.btn-danger:hover{background:var(--red-dim)}
+.btn-secondary{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.btn-secondary:hover{border-color:var(--border-hover);color:var(--text)}
+
+/* Competitor cards */
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:16px}
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:border-color .2s}
+.comp-card:hover{border-color:var(--border-hover)}
+.comp-card-top{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start}
+.comp-name{font-size:15px;font-weight:500;margin-bottom:3px}
+.comp-loc{font-size:12px;color:var(--muted)}
+.comp-card-body{padding:14px 18px}
+.comp-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
+.comp-row:last-child{border-bottom:none}
+.comp-row .k{color:var(--muted)}
+.comp-row .v{font-family:var(--font-mono);font-weight:500;font-size:12px}
+.comp-actions{display:flex;gap:6px;padding:10px 18px;border-top:1px solid var(--border)}
+
+/* Star rating */
+.stars{display:flex;gap:2px}
+.star{width:12px;height:12px;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);background:var(--subtle)}
+.star.filled{background:var(--amber)}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{text-align:left;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.data-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:11.5px}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--surface2)}
+
+/* Chart */
+.chart-wrap{position:relative;width:100%;height:260px}
+.chart-sm{height:200px}
+
+/* Radar */
+#radar-canvas{display:block;margin:0 auto}
+
+/* Progress bar */
+.prog-track{height:6px;background:var(--subtle);border-radius:99px;overflow:hidden;margin-top:4px}
+.prog-fill{height:100%;border-radius:99px;transition:width .6s ease}
+
+/* Divider */
+.divider{height:1px;background:var(--border);margin:16px 0}
+
+/* Empty state */
+.empty{text-align:center;padding:48px 24px;color:var(--muted)}
+.empty-icon{font-size:36px;margin-bottom:12px;opacity:.4}
+.empty p{font-size:13px;margin-bottom:16px}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:13px;color:var(--text);z-index:999;transform:translateY(100px);opacity:0;transition:all .3s;display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+
+/* Insight box */
+.insight{display:flex;gap:12px;padding:12px 14px;border-radius:8px;margin-bottom:8px;font-size:13px;line-height:1.5;border:1px solid}
+.insight:last-child{margin-bottom:0}
+.ins-g{background:var(--green-dim);border-color:rgba(74,222,128,.2);color:var(--green)}
+.ins-a{background:var(--amber-dim);border-color:rgba(255,181,71,.2);color:var(--amber)}
+.ins-b{background:var(--blue-dim);border-color:rgba(74,158,255,.2);color:var(--blue)}
+.ins-ac{background:var(--accent-dim);border-color:rgba(74,240,200,.2);color:var(--accent)}
+.insight strong{font-weight:600;display:block;margin-bottom:2px}
+
+/* Footer */
+.footer{margin-top:60px;text-align:center}
+.footer-copy{color:var(--accent);font-size:13px;font-weight:500;margin-bottom:4px}
+.footer-note{font-size:11px;color:var(--subtle);font-family:var(--font-mono)}
+
+/* Scroll bar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--subtle);border-radius:99px}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .3s ease forwards}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Header -->
+<div class="header">
+  <div>
+    <div class="label-pill">Market Intelligence</div>
+    <h1>Analisis Kompetitor<br><em>Photo Box</em> Sragen</h1>
+    <p class="subtitle">Input data kompetitor · Visualisasi otomatis · Summary insight</p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+    <div class="timestamp" id="ts"></div>
+    <button class="btn-primary" onclick="downloadPDF()" id="pdf-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Unduh Laporan PDF
+    </button>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('input')">Input Data</button>
+  <button class="tab" onclick="switchTab('kompetitor')">Daftar Kompetitor</button>
+  <button class="tab" onclick="switchTab('analisis')">Analisis & Grafik</button>
+  <button class="tab" onclick="switchTab('summary')">Summary</button>
+</div>
+
+<!-- TAB 1: INPUT -->
+<div class="tab-content active" id="tab-input">
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Tambah data kompetitor baru</span>
+      <span class="section-tag" id="comp-count">0 kompetitor tersimpan</span>
+    </div>
+    <div class="card-body">
+      <div class="form-section">Identitas</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nama usaha / brand *</label>
+          <input type="text" id="f-nama" placeholder="contoh: Photo Box Ayu">
+        </div>
+        <div class="form-group">
+          <label>Lokasi / alamat</label>
+          <input type="text" id="f-lokasi" placeholder="contoh: Jl. Raya Sragen No. 12">
+        </div>
+        <div class="form-group">
+          <label>Zona lokasi</label>
+          <select id="f-zona">
+            <option value="">-- Pilih zona --</option>
+            <option>Pusat kota / alun-alun</option>
+            <option>Pinggir jalan utama</option>
+            <option>Dekat sekolah / kampus</option>
+            <option>Mall / pusat perbelanjaan</option>
+            <option>Pasar / area ramai</option>
+            <option>Perumahan / pinggiran</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status operasional</label>
+          <select id="f-status">
+            <option value="Aktif">Aktif</option>
+            <option value="Tutup sementara">Tutup sementara</option>
+            <option value="Tutup permanen">Tutup permanen</option>
+            <option value="Baru buka">Baru buka</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section">Harga & Produk</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Harga minimum (Rp)</label>
+          <input type="number" id="f-harga-min" placeholder="contoh: 25000">
+        </div>
+        <div class="form-group">
+          <label>Harga maksimum (Rp)</label>
+          <input type="number" id="f-harga-max" placeholder="contoh: 35000">
+        </div>
+        <div class="form-group">
+          <label>Jumlah cetak per sesi</label>
+          <input type="text" id="f-cetak" placeholder="contoh: 4 lembar strip">
+        </div>
+        <div class="form-group">
+          <label>Ukuran foto / format</label>
+          <input type="text" id="f-ukuran" placeholder="contoh: 2R strip, 3R">
+        </div>
+        <div class="form-group">
+          <label>Keunggulan produk / fitur</label>
+          <input type="text" id="f-fitur" placeholder="contoh: digital copy, filter kustom">
+        </div>
+        <div class="form-group">
+          <label>Tema / backdrop tersedia</label>
+          <input type="text" id="f-tema" placeholder="contoh: vintage, K-pop, polos 5 warna">
+        </div>
+      </div>
+
+      <div class="form-section">Operasional & Kapasitas</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Jam operasional</label>
+          <input type="text" id="f-jam" placeholder="contoh: 09.00 – 21.00">
+        </div>
+        <div class="form-group">
+          <label>Estimasi sesi per hari</label>
+          <input type="number" id="f-sesi" placeholder="contoh: 30">
+        </div>
+        <div class="form-group">
+          <label>Jumlah booth / unit</label>
+          <input type="number" id="f-booth" placeholder="contoh: 2" min="1">
+        </div>
+        <div class="form-group">
+          <label>Lama operasional (tahun)</label>
+          <input type="number" id="f-lama" placeholder="contoh: 2" step="0.5">
+        </div>
+      </div>
+
+      <div class="form-section">Pemasaran & Penilaian</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Platform promosi</label>
+          <input type="text" id="f-promo" placeholder="contoh: Instagram, TikTok, WA">
+        </div>
+        <div class="form-group">
+          <label>Followers / engagement</label>
+          <input type="text" id="f-followers" placeholder="contoh: IG 2.4K, TikTok 800">
+        </div>
+        <div class="form-group">
+          <label>Rating kualitas (1–5)</label>
+          <select id="f-rating">
+            <option value="">-- Pilih rating --</option>
+            <option value="5">5 — Sangat Baik</option>
+            <option value="4">4 — Baik</option>
+            <option value="3">3 — Cukup</option>
+            <option value="2">2 — Kurang</option>
+            <option value="1">1 — Buruk</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estimasi ramai pengunjung</label>
+          <select id="f-ramai">
+            <option value="">-- Pilih --</option>
+            <option value="Sangat ramai">Sangat ramai</option>
+            <option value="Ramai">Ramai</option>
+            <option value="Sedang">Sedang</option>
+            <option value="Sepi">Sepi</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column:span 2">
+          <label>Catatan / observasi lapangan</label>
+          <textarea id="f-catatan" placeholder="Tulis catatan observasi, kelebihan, kekurangan, peluang, dll..."></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+        <button class="btn-primary" onclick="addCompetitor()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Tambah Kompetitor
+        </button>
+        <button class="btn-secondary" onclick="clearForm()">Bersihkan form</button>
+        <button class="btn-secondary" onclick="loadSample()">Muat data contoh</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: DAFTAR -->
+<div class="tab-content" id="tab-kompetitor">
+  <div id="comp-list-wrap">
+    <div class="empty" id="empty-kompetitor">
+      <div class="empty-icon">📷</div>
+      <p>Belum ada data kompetitor.<br>Tambahkan lewat tab <strong>Input Data</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: ANALISIS -->
+<div class="tab-content" id="tab-analisis">
+  <div id="empty-analisis" class="empty">
+    <div class="empty-icon">📊</div>
+    <p>Tambahkan minimal 1 kompetitor untuk melihat analisis.</p>
+  </div>
+  <div id="analisis-content" style="display:none">
+    <div class="metrics-row" id="ana-metrics"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Perbandingan harga (Rp)</span></div>
+        <div class="card-body"><div class="chart-wrap"><canvas id="chart-harga"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Distribusi zona lokasi</span></div>
+        <div class="card-body"><div class="chart-wrap"><canvas id="chart-zona"></canvas></div></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Estimasi sesi per hari</span></div>
+        <div class="card-body"><div class="chart-wrap chart-sm"><canvas id="chart-sesi"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Rating kualitas kompetitor</span></div>
+        <div class="card-body"><div class="chart-wrap chart-sm"><canvas id="chart-rating"></canvas></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Tabel perbandingan lengkap</span></div>
+      <div style="overflow-x:auto">
+        <table class="data-table" id="comp-table">
+          <thead><tr>
+            <th>Nama</th><th>Zona</th><th>Harga min</th><th>Harga max</th><th>Sesi/hari</th><th>Rating</th><th>Ramai</th><th>Status</th>
+          </tr></thead>
+          <tbody id="comp-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: SUMMARY -->
+<div class="tab-content" id="tab-summary">
+  <div id="empty-summary" class="empty">
+    <div class="empty-icon">💡</div>
+    <p>Tambahkan minimal 1 kompetitor untuk melihat summary.</p>
+  </div>
+  <div id="summary-content" style="display:none">
+    <div class="metrics-row" id="sum-metrics"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Peluang & gap pasar</span></div>
+        <div class="card-body" id="sum-peluang"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Ancaman & risiko</span></div>
+        <div class="card-body" id="sum-ancaman"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Rekomendasi strategi masuk pasar Sragen</span></div>
+      <div class="card-body" id="sum-rekomendasi"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Positioning harga vs kompetitor</span></div>
+      <div class="card-body" id="sum-harga"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-dot"></div>
+  <span id="toast-msg">Tersimpan</span>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Market Research Photo Box · Kab. Sragen · data observasi lapangan</div>
+  <div class="footer-copy">© <span id="footer-year"></span> Trio As'cholani. All Rights Reserved.</div>
+  <div class="footer-note">trioascholani@gmail.com</div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const now = new Date();
+document.getElementById('ts').textContent = now.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})+' · '+now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+document.getElementById('footer-year').textContent = now.getFullYear();
+
+let competitors = [];
+let charts = {};
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+  if(name==='analisis'||name==='summary') renderAnalysis();
+}
+
+// ── FORM ──────────────────────────────────────────────────────────────────────
+function getVal(id){ return document.getElementById(id).value.trim(); }
+function clearForm(){
+  ['f-nama','f-lokasi','f-zona','f-status','f-harga-min','f-harga-max','f-cetak','f-ukuran',
+   'f-fitur','f-tema','f-jam','f-sesi','f-booth','f-lama','f-promo','f-followers',
+   'f-rating','f-ramai','f-catatan'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el.tagName==='SELECT') el.selectedIndex=0;
+    else el.value='';
+  });
+}
+
+function addCompetitor(){
+  const nama = getVal('f-nama');
+  if(!nama){ showToast('Nama usaha wajib diisi!'); return; }
+  const comp = {
+    id: Date.now(),
+    nama, lokasi:getVal('f-lokasi'), zona:getVal('f-zona'),
+    status:getVal('f-status')||'Aktif',
+    hargaMin:+getVal('f-harga-min')||0,
+    hargaMax:+getVal('f-harga-max')||0,
+    cetak:getVal('f-cetak'), ukuran:getVal('f-ukuran'),
+    fitur:getVal('f-fitur'), tema:getVal('f-tema'),
+    jam:getVal('f-jam'), sesi:+getVal('f-sesi')||0,
+    booth:+getVal('f-booth')||1, lama:+getVal('f-lama')||0,
+    promo:getVal('f-promo'), followers:getVal('f-followers'),
+    rating:+getVal('f-rating')||0, ramai:getVal('f-ramai'),
+    catatan:getVal('f-catatan')
+  };
+  competitors.push(comp);
+  updateCount();
+  renderCompList();
+  clearForm();
+  showToast(`✓ ${nama} berhasil ditambahkan`);
+}
+
+function deleteComp(id){
+  competitors = competitors.filter(c=>c.id!==id);
+  updateCount();
+  renderCompList();
+  showToast('Kompetitor dihapus');
+}
+
+function editComp(id){
+  const c = competitors.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('f-nama').value = c.nama;
+  document.getElementById('f-lokasi').value = c.lokasi;
+  document.getElementById('f-zona').value = c.zona;
+  document.getElementById('f-status').value = c.status;
+  document.getElementById('f-harga-min').value = c.hargaMin||'';
+  document.getElementById('f-harga-max').value = c.hargaMax||'';
+  document.getElementById('f-cetak').value = c.cetak;
+  document.getElementById('f-ukuran').value = c.ukuran;
+  document.getElementById('f-fitur').value = c.fitur;
+  document.getElementById('f-tema').value = c.tema;
+  document.getElementById('f-jam').value = c.jam;
+  document.getElementById('f-sesi').value = c.sesi||'';
+  document.getElementById('f-booth').value = c.booth||'';
+  document.getElementById('f-lama').value = c.lama||'';
+  document.getElementById('f-promo').value = c.promo;
+  document.getElementById('f-followers').value = c.followers;
+  document.getElementById('f-rating').value = c.rating||'';
+  document.getElementById('f-ramai').value = c.ramai;
+  document.getElementById('f-catatan').value = c.catatan;
+  deleteComp(id);
+  switchTabDirect('input');
+  showToast('Edit mode — ubah data lalu klik Tambah');
+}
+
+function switchTabDirect(name){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.tab')[0].classList.add('active');
+}
+
+function updateCount(){
+  document.getElementById('comp-count').textContent = competitors.length+' kompetitor tersimpan';
+}
+
+// ── RENDER COMP LIST ──────────────────────────────────────────────────────────
+function stars(n){
+  let h='<div class="stars">';
+  for(let i=1;i<=5;i++) h+=`<div class="star${i<=n?' filled':''}"></div>`;
+  return h+'</div>';
+}
+function idr(n){ return 'Rp '+Math.round(n).toLocaleString('id-ID'); }
+function statusBadge(s){
+  const m={Aktif:'bg','Baru buka':'bac','Tutup sementara':'ba','Tutup permanen':'br'};
+  return `<span class="badge ${m[s]||'bb'}">${s}</span>`;
+}
+function ramaiBadge(r){
+  const m={'Sangat ramai':'bg','Ramai':'bac','Sedang':'bb','Sepi':'br'};
+  return r?`<span class="badge ${m[r]||'bb'}">${r}</span>`:'—';
+}
+
+function renderCompList(){
+  const wrap = document.getElementById('comp-list-wrap');
+  const empty = document.getElementById('empty-kompetitor');
+  if(competitors.length===0){
+    wrap.innerHTML=''; wrap.appendChild(empty); empty.style.display='block'; return;
+  }
+  let html = '<div class="comp-grid fade-in">';
+  competitors.forEach(c=>{
+    const avgHarga = c.hargaMin&&c.hargaMax ? Math.round((c.hargaMin+c.hargaMax)/2) : (c.hargaMin||c.hargaMax||0);
+    html += `<div class="comp-card">
+      <div class="comp-card-top">
+        <div>
+          <div class="comp-name">${c.nama}</div>
+          <div class="comp-loc">${c.lokasi||'—'} ${c.zona?'· '+c.zona:''}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          ${statusBadge(c.status)}
+          ${c.rating?stars(c.rating):''}
+        </div>
+      </div>
+      <div class="comp-card-body">
+        <div class="comp-row"><span class="k">Harga</span><span class="v">${c.hargaMin&&c.hargaMax?idr(c.hargaMin)+' – '+idr(c.hargaMax):avgHarga?idr(avgHarga):'—'}</span></div>
+        <div class="comp-row"><span class="k">Format cetak</span><span class="v">${c.cetak||'—'}</span></div>
+        <div class="comp-row"><span class="k">Tema / backdrop</span><span class="v">${c.tema||'—'}</span></div>
+        <div class="comp-row"><span class="k">Sesi/hari</span><span class="v">${c.sesi||'—'}</span></div>
+        <div class="comp-row"><span class="k">Jam operasional</span><span class="v">${c.jam||'—'}</span></div>
+        <div class="comp-row"><span class="k">Booth</span><span class="v">${c.booth} unit</span></div>
+        <div class="comp-row"><span class="k">Promosi</span><span class="v">${c.promo||'—'}</span></div>
+        <div class="comp-row"><span class="k">Ramai</span><span class="v">${ramaiBadge(c.ramai)}</span></div>
+        ${c.catatan?`<div style="margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5;border-left:2px solid var(--accent);padding-left:8px">${c.catatan}</div>`:''}
+      </div>
+      <div class="comp-actions">
+        <button class="btn-secondary" onclick="editComp(${c.id})">Edit</button>
+        <button class="btn-danger" onclick="deleteComp(${c.id})">Hapus</button>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
+// ── ANALYSIS & CHARTS ─────────────────────────────────────────────────────────
+function destroyChart(id){ if(charts[id]){charts[id].destroy();delete charts[id];} }
+
+function renderAnalysis(){
+  if(competitors.length===0){
+    document.getElementById('empty-analisis').style.display='block';
+    document.getElementById('analisis-content').style.display='none';
+    document.getElementById('empty-summary').style.display='block';
+    document.getElementById('summary-content').style.display='none';
+    return;
+  }
+  document.getElementById('empty-analisis').style.display='none';
+  document.getElementById('analisis-content').style.display='block';
+  document.getElementById('empty-summary').style.display='none';
+  document.getElementById('summary-content').style.display='block';
+
+  const n = competitors.length;
+  const withHarga = competitors.filter(c=>c.hargaMin||c.hargaMax);
+  const avgMin = withHarga.length ? Math.round(withHarga.reduce((a,c)=>a+(c.hargaMin||c.hargaMax),0)/withHarga.length) : 0;
+  const avgMax = withHarga.length ? Math.round(withHarga.reduce((a,c)=>a+(c.hargaMax||c.hargaMin),0)/withHarga.length) : 0;
+  const withSesi = competitors.filter(c=>c.sesi);
+  const avgSesi = withSesi.length ? Math.round(withSesi.reduce((a,c)=>a+c.sesi,0)/withSesi.length) : 0;
+  const withRating = competitors.filter(c=>c.rating);
+  const avgRating = withRating.length ? (withRating.reduce((a,c)=>a+c.rating,0)/withRating.length).toFixed(1) : 0;
+  const aktif = competitors.filter(c=>c.status==='Aktif'||c.status==='Baru buka').length;
+
+  // Ana metrics
+  document.getElementById('ana-metrics').innerHTML = `
+    <div class="met accent"><div class="lbl">Total kompetitor</div><div class="val">${n}</div><div class="sub">${aktif} aktif</div></div>
+    <div class="met"><div class="lbl">Rata-rata harga</div><div class="val">${avgMin?idr(avgMin):'—'}</div><div class="sub">harga minimum</div></div>
+    <div class="met"><div class="lbl">Avg sesi/hari</div><div class="val">${avgSesi||'—'}</div><div class="sub">per kompetitor</div></div>
+    <div class="met"><div class="lbl">Avg rating</div><div class="val">${avgRating||'—'}</div><div class="sub">dari skala 5</div></div>
+  `;
+
+  const darkC = 'rgba(255,255,255,0.05)';
+  const textC = '#7a7870';
+  const font = 'DM Mono';
+
+  // Chart harga
+  destroyChart('harga');
+  const hargaNames = withHarga.map(c=>c.nama.length>12?c.nama.slice(0,12)+'…':c.nama);
+  charts['harga'] = new Chart(document.getElementById('chart-harga'),{
+    type:'bar',
+    data:{labels:hargaNames,datasets:[
+      {label:'Min',data:withHarga.map(c=>c.hargaMin||c.hargaMax),backgroundColor:'rgba(74,240,200,0.3)',borderColor:'#4af0c8',borderWidth:1,borderRadius:4},
+      {label:'Max',data:withHarga.map(c=>c.hargaMax||c.hargaMin),backgroundColor:'rgba(74,158,255,0.3)',borderColor:'#4a9eff',borderWidth:1,borderRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>idr(c.raw)}}},
+      scales:{x:{grid:{color:darkC},ticks:{color:textC,font:{size:10,family:font}}},y:{grid:{color:darkC},ticks:{color:textC,font:{size:10,family:font},callback:v=>'Rp '+v.toLocaleString('id-ID')}}}}
+  });
+
+  // Chart zona
+  destroyChart('zona');
+  const zonaCount = {};
+  competitors.forEach(c=>{ if(c.zona) zonaCount[c.zona]=(zonaCount[c.zona]||0)+1; });
+  const zonaLabels = Object.keys(zonaCount);
+  const zonaPalette = ['#4af0c8','#4a9eff','#ffb547','#ff6b6b','#c084fc','#4ade80'];
+  charts['zona'] = new Chart(document.getElementById('chart-zona'),{
+    type:'doughnut',
+    data:{labels:zonaLabels,datasets:[{data:Object.values(zonaCount),backgroundColor:zonaPalette.map(c=>c+'55'),borderColor:zonaPalette,borderWidth:1.5}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:textC,font:{size:10,family:font},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>c.label+': '+c.raw+' kompetitor'}}}}
+  });
+
+  // Chart sesi
+  destroyChart('sesi');
+  charts['sesi'] = new Chart(document.getElementById('chart-sesi'),{
+    type:'bar',
+    data:{labels:withSesi.map(c=>c.nama.length>10?c.nama.slice(0,10)+'…':c.nama),
+      datasets:[{label:'Sesi/hari',data:withSesi.map(c=>c.sesi),backgroundColor:withSesi.map(c=>c.sesi>avgSesi?'rgba(74,222,128,0.4)':'rgba(255,181,71,0.4)'),borderColor:withSesi.map(c=>c.sesi>avgSesi?'#4ade80':'#ffb547'),borderWidth:1,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:darkC},ticks:{color:textC,font:{size:10,family:font}}},y:{grid:{color:darkC},ticks:{color:textC,font:{size:10,family:font}}}}}
+  });
+
+  // Chart rating
+  destroyChart('rating');
+  charts['rating'] = new Chart(document.getElementById('chart-rating'),{
+    type:'bar',
+    data:{labels:withRating.map(c=>c.nama.length>10?c.nama.slice(0,10)+'…':c.nama),
+      datasets:[{data:withRating.map(c=>c.rating),backgroundColor:withRating.map(c=>c.rating>=4?'rgba(74,222,128,0.4)':c.rating===3?'rgba(255,181,71,0.4)':'rgba(255,107,107,0.4)'),borderColor:withRating.map(c=>c.rating>=4?'#4ade80':c.rating===3?'#ffb547':'#ff6b6b'),borderWidth:1,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:darkC},ticks:{color:textC,font:{size:10,family:font}}},y:{grid:{color:darkC},ticks:{color:textC,font:{size:10,family:font}},min:0,max:5}}}
+  });
+
+  // Table
+  let thtml='';
+  competitors.forEach(c=>{
+    const rClr = c.rating>=4?'#4ade80':c.rating===3?'#ffb547':c.rating?'#ff6b6b':'#7a7870';
+    thtml+=`<tr>
+      <td style="font-weight:500;color:var(--text)">${c.nama}</td>
+      <td style="color:var(--muted)">${c.zona||'—'}</td>
+      <td>${c.hargaMin?idr(c.hargaMin):'—'}</td>
+      <td>${c.hargaMax?idr(c.hargaMax):'—'}</td>
+      <td>${c.sesi||'—'}</td>
+      <td style="color:${rClr}">${c.rating?c.rating+' / 5':'—'}</td>
+      <td>${ramaiBadge(c.ramai)}</td>
+      <td>${statusBadge(c.status)}</td>
+    </tr>`;
+  });
+  document.getElementById('comp-table-body').innerHTML = thtml;
+
+  // SUMMARY
+  renderSummary(avgMin,avgMax,avgSesi,avgRating,aktif,n);
+}
+
+function renderSummary(avgMin,avgMax,avgSesi,avgRating,aktif,n){
+  const withHarga = competitors.filter(c=>c.hargaMin||c.hargaMax);
+  const globalMin = withHarga.length ? Math.min(...withHarga.map(c=>c.hargaMin||c.hargaMax)) : 0;
+  const globalMax = withHarga.length ? Math.max(...withHarga.map(c=>c.hargaMax||c.hargaMin)) : 0;
+  const ramaiCount = competitors.filter(c=>c.ramai==='Ramai'||c.ramai==='Sangat ramai').length;
+  const topRated = competitors.filter(c=>c.rating>=4);
+  const lowRated = competitors.filter(c=>c.rating<=2&&c.rating>0);
+  const hasIG = competitors.filter(c=>c.promo&&c.promo.toLowerCase().includes('instagram')).length;
+  const hasTikTok = competitors.filter(c=>c.promo&&c.promo.toLowerCase().includes('tiktok')).length;
+  const zonas = [...new Set(competitors.map(c=>c.zona).filter(Boolean))];
+  const avgHargaMid = avgMin&&avgMax?Math.round((avgMin+avgMax)/2):avgMin||avgMax||0;
+
+  // Sum metrics
+  document.getElementById('sum-metrics').innerHTML = `
+    <div class="met accent"><div class="lbl">Range harga pasar</div><div class="val" style="font-size:16px">${globalMin?idr(globalMin):'-'} – ${globalMax?idr(globalMax):'-'}</div><div class="sub">min – max kompetitor</div></div>
+    <div class="met"><div class="lbl">Kompetitor aktif</div><div class="val">${aktif} / ${n}</div><div class="sub">${Math.round(aktif/n*100)}% masih beroperasi</div></div>
+    <div class="met"><div class="lbl">Kompetitor ramai</div><div class="val">${ramaiCount}</div><div class="sub">${Math.round(ramaiCount/n*100)}% dari total</div></div>
+    <div class="met"><div class="lbl">Zona terpetakan</div><div class="val">${zonas.length}</div><div class="sub">zona berbeda</div></div>
+  `;
+
+  // Peluang
+  const peluang = [];
+  if(avgRating<3.5) peluang.push({t:'Kualitas kompetitor masih rendah',b:`Rata-rata rating ${avgRating}/5 — ada ruang besar untuk hadir dengan kualitas cetak & pengalaman yang lebih baik.`,c:'ins-g'});
+  if(globalMin&&globalMax&&(globalMax-globalMin)>10000) peluang.push({t:'Gap harga lebar',b:`Range harga pasar ${idr(globalMin)}–${idr(globalMax)} — bisa masuk di segmen mid-range dengan value lebih tinggi.`,c:'ins-g'});
+  if(zonas.length<4) peluang.push({t:'Zona belum tersaturasi',b:`Baru ${zonas.length} zona terpetakan. Ada potensi masuk ke lokasi yang belum dilirik kompetitor.`,c:'ins-ac'});
+  if(hasTikTok<Math.ceil(n/2)) peluang.push({t:'Minimnya presence di TikTok',b:`Hanya ${hasTikTok} dari ${n} kompetitor aktif di TikTok. Ini peluang besar untuk viral marketing di Sragen.`,c:'ins-ac'});
+  if(avgSesi>0&&avgSesi<20) peluang.push({t:'Kapasitas pasar belum terisi penuh',b:`Rata-rata sesi/hari kompetitor baru ${avgSesi} — pasar masih punya ruang untuk pemain baru.`,c:'ins-g'});
+  if(!peluang.length) peluang.push({t:'Pasar kompetitif',b:'Tambahkan lebih banyak data kompetitor untuk insight yang lebih detail.',c:'ins-b'});
+
+  document.getElementById('sum-peluang').innerHTML = peluang.map(p=>`<div class="insight ${p.c}"><div><strong>${p.t}</strong>${p.b}</div></div>`).join('');
+
+  // Ancaman
+  const ancaman = [];
+  if(ramaiCount>Math.floor(n/2)) ancaman.push({t:'Banyak kompetitor sudah ramai',b:`${ramaiCount} dari ${n} kompetitor sudah punya trafik tinggi — butuh diferensiasi kuat untuk menarik pelanggan.`,c:'ins-a'});
+  if(hasIG>Math.floor(n/2)) ancaman.push({t:'Kompetitor sudah kuat di media sosial',b:`${hasIG} kompetitor sudah aktif di Instagram — butuh konten yang lebih menarik dan konsisten.`,c:'ins-a'});
+  if(topRated.length>0) ancaman.push({t:'Ada kompetitor dengan rating tinggi',b:`${topRated.map(c=>c.nama).join(', ')} punya rating ≥4 — mereka sudah punya loyalitas pelanggan.`,c:'ins-a'});
+  if(aktif===n) ancaman.push({t:'Semua kompetitor masih aktif',b:'Tidak ada pemain yang keluar dari pasar — ini indikasi persaingan stabil dan ketat.',c:'ins-a'});
+  if(!ancaman.length) ancaman.push({t:'Persaingan tergolong sehat',b:'Tambahkan lebih banyak data untuk mapping ancaman yang lebih akurat.',c:'ins-b'});
+
+  document.getElementById('sum-ancaman').innerHTML = ancaman.map(p=>`<div class="insight ${p.c}"><div><strong>${p.t}</strong>${p.b}</div></div>`).join('');
+
+  // Rekomendasi
+  const rekom = [];
+  const suggestMin = avgHargaMid ? Math.round(avgHargaMid*0.95/1000)*1000 : 27000;
+  const suggestMax = avgHargaMid ? Math.round(avgHargaMid*1.15/1000)*1000 : 35000;
+  rekom.push({t:`Posisi harga: ${idr(suggestMin)} – ${idr(suggestMax)}`,b:`Sedikit di bawah rata-rata pasar untuk awal, lalu naik setelah brand dikenal. Hindari price war ekstrem.`,c:'ins-g'});
+  rekom.push({t:'Fokus diferensiasi kualitas & pengalaman',b:'Berikan props lebih banyak, pilihan filter kustom, dan proses cetak cepat (<60 detik) sebagai keunggulan utama.',c:'ins-ac'});
+  rekom.push({t:'Agresif di TikTok & Instagram Reels',b:'Buat konten behind-the-scenes, hasil foto aesthetic, dan challenge — ini terbukti viral untuk bisnis photo box.',c:'ins-ac'});
+  rekom.push({t:'Pilih lokasi yang belum padat kompetitor',b:`Prioritaskan zona yang belum banyak diisi: ${zonas.length>0?'hindari '+zonas[0]:'petakan lokasi kompetitor lebih detail dulu'}.`,c:'ins-b'});
+  rekom.push({t:'Buat paket bundling & loyalty',b:'Tawarkan paket 2 sesi = diskon 10%, atau kartu loyalty 5 sesi gratis 1 — meningkatkan repeat customer.',c:'ins-g'});
+
+  document.getElementById('sum-rekomendasi').innerHTML = rekom.map(r=>`<div class="insight ${r.c}" style="margin-bottom:8px"><div><strong>${r.t}</strong>${r.b}</div></div>`).join('');
+
+  // Harga positioning
+  let hargaHtml = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:12px;color:var(--muted)">
+    <span style="color:var(--accent)">▶</span> Posisi harga yang disarankan: <strong style="color:var(--accent)">${idr(suggestMin)} – ${idr(suggestMax)}</strong>
+  </div>`;
+  withHarga.forEach(c=>{
+    const mid = Math.round((c.hargaMin+c.hargaMax)/2)||(c.hargaMin||c.hargaMax);
+    const pct = globalMax ? Math.round(mid/globalMax*100) : 50;
+    const clr = mid<avgHargaMid?'#4af0c8':mid>avgHargaMid?'#ff6b6b':'#ffb547';
+    hargaHtml += `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+        <span style="color:var(--text)">${c.nama}</span>
+        <span style="font-family:var(--font-mono);color:${clr}">${idr(c.hargaMin)} – ${idr(c.hargaMax)}</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:${clr}55"></div></div>
+    </div>`;
+  });
+  document.getElementById('sum-harga').innerHTML = hargaHtml;
+}
+
+// ── SAMPLE DATA ───────────────────────────────────────────────────────────────
+function loadSample(){
+  competitors = [
+    {id:1,nama:'Photo Box Cantik',lokasi:'Jl. Raya Sragen No. 45',zona:'Pinggir jalan utama',status:'Aktif',hargaMin:25000,hargaMax:30000,cetak:'4 lembar strip',ukuran:'2R',fitur:'Filter kustom',tema:'Polos, vintage',jam:'09.00–21.00',sesi:25,booth:1,lama:2,promo:'Instagram, WA',followers:'IG 3.2K',rating:4,ramai:'Ramai',catatan:'Lokasi strategis dekat alun-alun, antrian cukup panjang saat weekend.'},
+    {id:2,nama:'SnapBox Sragen',lokasi:'Dekat SMAN 1 Sragen',zona:'Dekat sekolah / kampus',status:'Aktif',hargaMin:20000,hargaMax:27000,cetak:'3 lembar strip',ukuran:'2R',fitur:'Cetak cepat',tema:'Polos 3 warna',jam:'10.00–20.00',sesi:15,booth:1,lama:1,promo:'Instagram',followers:'IG 1.1K',rating:3,ramai:'Sedang',catatan:'Target pelajar, harga sangat murah tapi kualitas cetak biasa.'},
+    {id:3,nama:'Momento Box',lokasi:'Pasar Bunder Sragen',zona:'Pasar / area ramai',status:'Aktif',hargaMin:28000,hargaMax:35000,cetak:'4 lembar strip + digital',ukuran:'2R + soft copy',fitur:'Digital copy via QR',tema:'K-pop, polos, vintage',jam:'08.00–22.00',sesi:35,booth:2,lama:3,promo:'Instagram, TikTok',followers:'IG 8.5K, TikTok 12K',rating:5,ramai:'Sangat ramai',catatan:'Kompetitor terkuat. Booth 2 unit, selalu ada antrian. Konten TikTok mereka viral.'},
+    {id:4,nama:'Box Foto Murah',lokasi:'Perumahan Griya Sragen',zona:'Perumahan / pinggiran',status:'Tutup sementara',hargaMin:18000,hargaMax:22000,cetak:'4 lembar',ukuran:'2R',fitur:'-',tema:'Polos 2 warna',jam:'13.00–20.00',sesi:8,booth:1,lama:0.5,promo:'WA saja',followers:'-',rating:2,ramai:'Sepi',catatan:'Tutup sejak 2 bulan lalu. Diduga kalah saing dan lokasi kurang strategis.'},
+  ];
+  updateCount();
+  renderCompList();
+  showToast('Data contoh berhasil dimuat');
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ── PDF ───────────────────────────────────────────────────────────────────────
+async function downloadPDF(){
+  if(competitors.length===0){showToast('Tambahkan data kompetitor dulu!');return;}
+  const btn=document.getElementById('pdf-btn');
+  btn.textContent='Menyiapkan PDF...';btn.style.opacity='.6';btn.style.pointerEvents='none';
+
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const PW=210,PH=297,M=16,CW=210-32;
+  const nowS=new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
+
+  function bg(){pdf.setFillColor(13,15,18);pdf.rect(0,0,PW,PH,'F');}
+  function hdr(p,tot){
+    bg();
+    pdf.setFillColor(20,23,28);pdf.rect(0,0,PW,10,'F');
+    pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(100,98,92);
+    pdf.text('Market Research · Kompetitor Photo Box Sragen',M,6.5);
+    pdf.text(`Hal ${p}/${tot}`,PW-M,6.5,{align:'right'});
+    pdf.setDrawColor(40,44,52);pdf.setLineWidth(.3);pdf.line(0,10,PW,10);
+  }
+  function secTitle(txt,y){
+    pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(74,240,200);
+    pdf.text(txt.toUpperCase(),M,y);
+    pdf.setDrawColor(74,240,200);pdf.setLineWidth(.5);pdf.line(M,y+1.5,M+55,y+1.5);
+  }
+  function ftr(){
+    pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(60,58,54);
+    pdf.text('© '+new Date().getFullYear()+' Trio As\'cholani. All Rights Reserved. · trioascholani@gmail.com · Data observasi lapangan.',M,PH-8);
+  }
+
+  const TOTAL=3;
+  const withHarga=competitors.filter(c=>c.hargaMin||c.hargaMax);
+  const avgMin=withHarga.length?Math.round(withHarga.reduce((a,c)=>a+(c.hargaMin||c.hargaMax),0)/withHarga.length):0;
+  const avgMax=withHarga.length?Math.round(withHarga.reduce((a,c)=>a+(c.hargaMax||c.hargaMin),0)/withHarga.length):0;
+  const withSesi=competitors.filter(c=>c.sesi);
+  const avgSesi=withSesi.length?Math.round(withSesi.reduce((a,c)=>a+c.sesi,0)/withSesi.length):0;
+  const withRating=competitors.filter(c=>c.rating);
+  const avgRating=withRating.length?(withRating.reduce((a,c)=>a+c.rating,0)/withRating.length).toFixed(1):0;
+  const aktif=competitors.filter(c=>c.status==='Aktif'||c.status==='Baru buka').length;
+  const n=competitors.length;
+
+  // PAGE 1: Cover + Ringkasan
+  hdr(1,TOTAL);
+  pdf.setFillColor(200,240,74);pdf.rect(M,14,3,20,'F');
+  pdf.setFont('helvetica','bold');pdf.setFontSize(20);pdf.setTextColor(232,230,224);
+  pdf.text('Market Research',M+7,24);
+  pdf.setTextColor(74,240,200);pdf.text('Kompetitor Photo Box Sragen',M+7,33);
+  pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(120,120,112);
+  pdf.text('Kab. Sragen · '+nowS+' · '+n+' kompetitor dipetakan',M+7,40);
+
+  let cy=55;
+  secTitle('Ringkasan eksekutif',cy);cy+=8;
+  const mw=(CW-6)/2,mh=20;
+  function mbox(x,y,w,h,lbl,val,sub,acc){
+    pdf.setFillColor(acc?18:28,acc?30:32,acc?18:40);
+    pdf.roundedRect(x,y,w,h,2,2,'F');
+    if(acc){pdf.setDrawColor(74,200,120);pdf.setLineWidth(.4);pdf.roundedRect(x,y,w,h,2,2,'S');}
+    pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(100,98,92);
+    pdf.text(lbl.toUpperCase(),x+3,y+5.5);
+    pdf.setFont('helvetica','bold');pdf.setFontSize(12);pdf.setTextColor(acc?74:220,acc?240:218,acc?200:212);
+    pdf.text(val,x+3,y+13);
+    if(sub){pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(100,98,92);pdf.text(sub,x+3,y+18);}
+  }
+  mbox(M,cy,mw,mh,'Total kompetitor',n+' usaha',aktif+' aktif saat ini',true);
+  mbox(M+mw+6,cy,mw,mh,'Avg harga min',avgMin?idr(avgMin):'—','rata-rata harga terendah');
+  cy+=mh+4;
+  mbox(M,cy,mw,mh,'Avg sesi/hari',avgSesi?avgSesi+' sesi':'—','per kompetitor');
+  mbox(M+mw+6,cy,mw,mh,'Avg rating',avgRating?avgRating+' / 5':'—','kualitas rata-rata');
+  cy+=mh+10;
+
+  secTitle('Daftar kompetitor',cy);cy+=8;
+  // Mini table
+  const cols2=[36,30,24,24,16,14,20,24];
+  const heads2=['Nama','Zona','Harga min','Harga max','Sesi','Rating','Ramai','Status'];
+  pdf.setFillColor(30,34,42);
+  pdf.rect(M,cy,CW,7,'F');
+  let cx=M+2;
+  heads2.forEach((h,i)=>{
+    pdf.setFont('helvetica','bold');pdf.setFontSize(6.5);pdf.setTextColor(120,118,110);
+    pdf.text(h,cx,cy+4.5);cx+=cols2[i];
+  });
+  cy+=7;
+  competitors.forEach((c,idx)=>{
+    pdf.setFillColor(idx%2===0?20:24,idx%2===0?23:27,idx%2===0?28:36);
+    pdf.rect(M,cy,CW,7.5,'F');
+    cx=M+2;
+    const rowVals=[
+      c.nama.length>18?c.nama.slice(0,18)+'…':c.nama,
+      c.zona?c.zona.slice(0,18):'—',
+      c.hargaMin?idr(c.hargaMin):'—',
+      c.hargaMax?idr(c.hargaMax):'—',
+      c.sesi?c.sesi+'':'—',
+      c.rating?c.rating+'/5':'—',
+      c.ramai||'—',
+      c.status
+    ];
+    const rowColors=[[220,218,212],[140,138,130],[74,240,200],[74,158,255],[160,158,152],
+      c.rating>=4?[74,222,128]:c.rating===3?[255,181,71]:[255,107,107],
+      c.ramai==='Sangat ramai'||c.ramai==='Ramai'?[74,222,128]:[255,181,71],
+      c.status==='Aktif'?[74,222,128]:c.status==='Baru buka'?[74,240,200]:[255,107,107]];
+    rowVals.forEach((v,i)=>{
+      pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(...rowColors[i]);
+      pdf.text(v,cx,cy+4.5);cx+=cols2[i];
+    });
+    cy+=7.5;
+  });
+  ftr();
+
+  // PAGE 2: Charts
+  pdf.addPage();hdr(2,TOTAL);
+  cy=18;secTitle('Visualisasi data kompetitor',cy);cy+=6;
+
+  try{
+    const c1=document.getElementById('chart-harga');
+    if(c1){const img=await html2canvas(c1,{backgroundColor:'#14171c',scale:2,logging:false});
+      pdf.setFillColor(20,23,28);pdf.roundedRect(M,cy,CW,60,2,2,'F');
+      pdf.addImage(img.toDataURL('image/png'),'PNG',M+2,cy+2,CW-4,56);cy+=64;}
+  }catch(e){cy+=8;}
+
+  try{
+    const c2=document.getElementById('chart-sesi');
+    if(c2){const img=await html2canvas(c2,{backgroundColor:'#14171c',scale:2,logging:false});
+      pdf.setFillColor(20,23,28);pdf.roundedRect(M,cy,CW,55,2,2,'F');
+      pdf.addImage(img.toDataURL('image/png'),'PNG',M+2,cy+2,CW-4,51);cy+=59;}
+  }catch(e){cy+=8;}
+
+  try{
+    const c3=document.getElementById('chart-rating');
+    if(c3){const img=await html2canvas(c3,{backgroundColor:'#14171c',scale:2,logging:false});
+      pdf.setFillColor(20,23,28);pdf.roundedRect(M,cy,CW,55,2,2,'F');
+      pdf.addImage(img.toDataURL('image/png'),'PNG',M+2,cy+2,CW-4,51);}
+  }catch(e){}
+  ftr();
+
+  // PAGE 3: Detail + Rekomendasi
+  pdf.addPage();hdr(3,TOTAL);
+  cy=18;secTitle('Detail observasi per kompetitor',cy);cy+=8;
+  competitors.forEach((c,idx)=>{
+    if(cy>230){pdf.addPage();hdr(3,TOTAL);cy=18;}
+    pdf.setFillColor(24,28,36);pdf.roundedRect(M,cy,CW,c.catatan?40:33,2,2,'F');
+    pdf.setDrawColor(50,55,65);pdf.setLineWidth(.3);pdf.roundedRect(M,cy,CW,c.catatan?40:33,2,2,'S');
+    pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(220,218,212);
+    pdf.text(c.nama,M+4,cy+7);
+    const sb=c.status==='Aktif'?[74,222,128]:c.status==='Baru buka'?[74,240,200]:[255,107,107];
+    pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(...sb);
+    pdf.text(c.status,M+CW-4,cy+7,{align:'right'});
+    const det=[
+      ['Lokasi',c.lokasi||'—'],['Zona',c.zona||'—'],
+      ['Harga',c.hargaMin&&c.hargaMax?idr(c.hargaMin)+' – '+idr(c.hargaMax):(c.hargaMin||c.hargaMax)?idr(c.hargaMin||c.hargaMax):'—'],
+      ['Cetak',c.cetak||'—'],['Tema',c.tema||'—'],['Sesi/hari',(c.sesi||'—')+''],
+      ['Jam',c.jam||'—'],['Promosi',c.promo||'—'],['Rating',c.rating?c.rating+'/5':'—'],['Ramai',c.ramai||'—'],
+    ];
+    const colW=CW/2-4;
+    det.forEach((d,i)=>{
+      const col=i%2,row=Math.floor(i/2);
+      const dx=M+4+col*(colW+8),dy=cy+14+row*5.5;
+      pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(100,98,92);
+      pdf.text(d[0]+': ',dx,dy);
+      pdf.setTextColor(180,178,172);
+      const label=d[0]+': ';
+      const lw=pdf.getTextWidth(label);
+      pdf.text(d[1].length>22?d[1].slice(0,22)+'…':d[1],dx+lw,dy);
+    });
+    if(c.catatan){
+      pdf.setFont('helvetica','italic');pdf.setFontSize(7);pdf.setTextColor(100,98,92);
+      const lines=pdf.splitTextToSize('"'+c.catatan+'"',CW-12);
+      lines.slice(0,2).forEach((l,li)=>pdf.text(l,M+4,cy+36+li*4.5));
+    }
+    cy+=(c.catatan?42:35);
+  });
+
+  if(cy<220){
+    cy+=8;secTitle('Rekomendasi strategi',cy);cy+=8;
+    const rekoms=[
+      'Posisi harga kompetitif di antara rata-rata pasar — tidak terlalu murah, tidak terlalu mahal.',
+      'Diferensiasi kualitas: cetak <60 detik, props lebih banyak, filter kustom yang tidak dimiliki kompetitor.',
+      'Agresif di TikTok & Instagram Reels dengan konten behind-the-scenes dan hasil foto aesthetic.',
+      'Pilih lokasi yang belum padat kompetitor berdasarkan peta zona di atas.',
+      'Buat program loyalitas: 5 sesi = gratis 1, atau bundling 2 sesi diskon 10%.',
+    ];
+    rekoms.forEach((r,i)=>{
+      if(cy>270) return;
+      pdf.setFillColor(18,26,22);pdf.roundedRect(M,cy,CW,12,1,1,'F');
+      pdf.setDrawColor(74,200,120);pdf.setLineWidth(.3);pdf.line(M,cy,M,cy+12);
+      pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(160,158,152);
+      const lines=pdf.splitTextToSize((i+1)+'. '+r,CW-8);
+      lines.slice(0,1).forEach(l=>pdf.text(l,M+5,cy+7.5));
+      cy+=14;
+    });
+  }
+  ftr();
+
+  pdf.save('market-research-photobox-sragen-'+new Date().toISOString().slice(0,10)+'.pdf');
+  btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Unduh Laporan PDF';
+  btn.style.opacity='1';btn.style.pointerEvents='auto';
+}
+
+// Init
+updateCount();
+</script>
+</body>
+</html>
