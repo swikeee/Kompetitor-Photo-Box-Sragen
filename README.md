@@ -1,0 +1,1 @@
+# Kompetitor-Photo-Box-Sragen
